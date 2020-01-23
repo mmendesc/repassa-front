@@ -24,6 +24,13 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
     setRedirectToShow(true)
   }
 
+  const deleteAvaliation = (avaliationId) => {
+    axios.delete(`/managers/avaliations/${avaliationId}.json`).then( ({ data }) => {
+
+      setAvaliations(avaliations.filter(avaliation => avaliation.id !== avaliationId));
+    })
+  }
+
   const renderAvaliations = () => (
     avaliations.map(avaliation => (
       <div className="avaliation">
@@ -32,6 +39,7 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
         <h2>{`Comentário: ${avaliation.attributes.comment}`}</h2>
         <h2>{`Avaliador por: ${avaliation.attributes.manager}`}</h2>
         <button onClick={() => showEmployee(avaliation.id)}>Ver empregado</button>
+        <button onClick={() => deleteAvaliation(avaliation.id)}>Deletar avaliação</button>
       </div>
     ))
   )
@@ -50,7 +58,8 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
 
   return (
     <div className="IndexContainer">
-      <h1>{`Seja bem vindo ${email}`}</h1>
+      <h2>{`Seja bem vindo ${email}`}</h2>
+      <h1>Avaliações</h1>
       <button onClick={() => setRedirectToNew(true)}>Criar empregado</button>
       {avaliations.length && (
         renderAvaliations()

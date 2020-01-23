@@ -6,6 +6,7 @@ import IndexContainer from './containers/IndexContainer';
 import ShowEmployee from './containers/ShowEmployee';
 import EditEmployee from './containers/EditEmployee';
 import NewEmployee from './containers/NewEmployee';
+import NewAvaliation from './containers/NewAvaliation';
 
 import './App.scss';
 import './settings.js'
@@ -53,6 +54,15 @@ function App() {
                   authToken={authToken}
                 />}
             />
+            <Route
+              path="/managers/employees/:id/avaliations/new"
+              exact
+              render={(props) =>
+                <NewAvaliation
+                  {...props}
+                  authToken={authToken}
+                />}
+            />
             <Route path="/employees/sign_in">
               <SessionContainer
                 setAuthToken={setAuthToken}
@@ -65,6 +75,13 @@ function App() {
                 setAuthToken={setAuthToken}
                 authToken={authToken}
                 namespace="managers"
+              />
+            </Route>
+            <Route>
+              <IndexContainer
+                authToken={authToken}
+                setCurrentEmployee={setCurrentEmployee}
+                currentEmployee={currentEmployee}
               />
             </Route>
           </Switch>
