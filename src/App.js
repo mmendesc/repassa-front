@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+
+import SessionContainer from './containers/SessionContainer';
+import IndexContainer from './containers/IndexContainer';
+import './App.scss';
 
 function App() {
+  const [authToken, setAuthToken] = useState(undefined);
+
+  useEffect(() => {
+    setAuthToken(localStorage.getItem('authToken'))
+  }, [])
+
+  // if (authToken) {
+  //   return <IndexContainer />
+  // }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="main-content">
+        <BrowserRouter>
+          <Switch>
+          <Route path="/" exact>
+              <IndexContainer />
+            </Route>
+            <Route path="/sign_in">
+              <SessionContainer
+                setAuthToken={setAuthToken}
+                authToken={authToken}
+              />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }

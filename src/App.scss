@@ -1,4 +1,12 @@
 .App {
+  .main-content {
+    display: flex;
+    min-height: 100vh;
+    font-size: 1.4rem;
+  }
+}
+
+.App {
   text-align: center;
 }
 
