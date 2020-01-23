@@ -33,6 +33,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "https://whispering-wave-20225.herokuapp.com/api/v1"
+  }
 }

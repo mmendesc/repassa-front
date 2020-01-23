@@ -1,3 +1,3 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3001/api/v1';
+axios.defaults.baseURL = 'https://whispering-wave-20225.herokuapp.com/api/v1';
