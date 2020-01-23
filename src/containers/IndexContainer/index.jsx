@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3001/api/v1';
-
 const IndexContainer = ({ email, authToken, setCurrentEmployee }) => {
   const [avaliations, setAvaliations] = useState([]);
   const [redirectToShow, setRedirectToShow] = useState(false);

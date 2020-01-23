@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import SessionContainer from './containers/SessionContainer';
 import IndexContainer from './containers/IndexContainer';
 import ShowEmployee from './containers/ShowEmployee';
+import EditEmployee from './containers/EditEmployee';
 
 import './App.scss';
 import './settings.js'
@@ -29,6 +30,12 @@ function App() {
             </Route>
             <Route path="/managers/employees/show">
               <ShowEmployee
+                authToken={authToken}
+                currentEmployee={currentEmployee}
+              />
+            </Route>
+            <Route path="/managers/employees/edit">
+              <EditEmployee
                 authToken={authToken}
                 currentEmployee={currentEmployee}
               />
