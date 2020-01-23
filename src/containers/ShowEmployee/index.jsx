@@ -4,13 +4,13 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:3001/api/v1';
 
-const ShowEmployee = ({ authToken, currentEmployee }) => {
+const ShowEmployee = ({ authToken, match }) => {
   const [employee, setEmployee] = useState(undefined);
   const [redirectToEdit, setRedirectToEdit] = useState(false);
 
   useEffect(() => {
     if (authToken) {
-      axios.get(`/managers/employees/${currentEmployee}.json`).then( ({ data }) => {
+      axios.get(`/managers/employees/${match.params.id}.json`).then( ({ data }) => {
         setEmployee(data.data)
       })
     }
@@ -25,7 +25,7 @@ const ShowEmployee = ({ authToken, currentEmployee }) => {
   }
 
   if (redirectToEdit) {
-    return <Redirect to="/managers/employees/edit" />
+    return <Redirect to={`/managers/employees/${match.params.id}/edit`} />
   }
 
   return (

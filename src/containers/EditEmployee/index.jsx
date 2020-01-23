@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-const EditEmployee = ({ authToken, currentEmployee }) => {
+const EditEmployee = ({ authToken, match }) => {
   const [employee, setEmployee] = useState(undefined);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
 
   useEffect(() => {
     if (authToken) {
-      axios.get(`/managers/employees/${currentEmployee}.json`).then( ({ data }) => {
+      axios.get(`/managers/employees/${match.params.id}.json`).then( ({ data }) => {
         const employeeData = data.data;
         setEmployee(employeeData)
         setEmail(employeeData.attributes.email);
@@ -19,7 +19,7 @@ const EditEmployee = ({ authToken, currentEmployee }) => {
   }, []);
 
   const editEmployee = () => {
-    axios.put(`/managers/employees/${currentEmployee}.json`, {
+    axios.put(`/managers/employees/${match.params.id}.json`, {
       employee: {
         name,
         email,

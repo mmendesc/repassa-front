@@ -5,17 +5,14 @@ import SessionContainer from './containers/SessionContainer';
 import IndexContainer from './containers/IndexContainer';
 import ShowEmployee from './containers/ShowEmployee';
 import EditEmployee from './containers/EditEmployee';
+import NewEmployee from './containers/NewEmployee';
 
 import './App.scss';
 import './settings.js'
 
 function App() {
-  const [authToken, setAuthToken] = useState(undefined);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
   const [currentEmployee, setCurrentEmployee] = useState(undefined);
-
-  useEffect(() => {
-    setAuthToken(localStorage.getItem('authToken'))
-  }, [])
 
   return (
     <div className="App">
@@ -26,20 +23,36 @@ function App() {
               <IndexContainer
                 authToken={authToken}
                 setCurrentEmployee={setCurrentEmployee}
-              />
-            </Route>
-            <Route path="/managers/employees/show">
-              <ShowEmployee
-                authToken={authToken}
                 currentEmployee={currentEmployee}
               />
             </Route>
-            <Route path="/managers/employees/edit">
-              <EditEmployee
-                authToken={authToken}
-                currentEmployee={currentEmployee}
-              />
-            </Route>
+            <Route
+              path="/managers/employees/new"
+              exact
+              render={(props) =>
+                <NewEmployee
+                  {...props}
+                  authToken={authToken}
+                />}
+            />
+            <Route
+              path="/managers/employees/:id"
+              exact
+              render={(props) =>
+                <ShowEmployee
+                  {...props}
+                  authToken={authToken}
+                />}
+            />
+            <Route
+              path="/managers/employees/:id/edit"
+              exact
+              render={(props) =>
+                <EditEmployee
+                  {...props}
+                  authToken={authToken}
+                />}
+            />
             <Route path="/employees/sign_in">
               <SessionContainer
                 setAuthToken={setAuthToken}

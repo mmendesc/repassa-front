@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-const IndexContainer = ({ email, authToken, setCurrentEmployee }) => {
+const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee }) => {
   const [avaliations, setAvaliations] = useState([]);
   const [redirectToShow, setRedirectToShow] = useState(false);
+  const [redirectToNew, setRedirectToNew] = useState(false);
 
   axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
 
@@ -40,12 +41,17 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee }) => {
   }
 
   if (redirectToShow) {
-    return <Redirect to="/managers/employees/show" />
+    return <Redirect to={`/managers/employees/${currentEmployee}`} />
+  }
+
+  if (redirectToNew) {
+    return <Redirect to="/managers/employees/new" />
   }
 
   return (
     <div className="IndexContainer">
       <h1>{`Seja bem vindo ${email}`}</h1>
+      <button onClick={() => setRedirectToNew(true)}>Criar empregado</button>
       {avaliations.length && (
         renderAvaliations()
       )}
