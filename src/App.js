@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import axios from 'axios';
 
 import SessionContainer from './containers/SessionContainer';
 import IndexContainer from './containers/IndexContainer';
@@ -14,6 +15,10 @@ import './settings.js'
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
   const [currentEmployee, setCurrentEmployee] = useState(undefined);
+
+  if (authToken) {
+    axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
+  }
 
   return (
     <div className="App">
