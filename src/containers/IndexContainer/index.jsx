@@ -8,11 +8,10 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
   const [avaliations, setAvaliations] = useState([]);
   const [redirectToShow, setRedirectToShow] = useState(false);
   const [redirectToNew, setRedirectToNew] = useState(false);
+  const namespace = localStorage.getItem('namespace') || 'managers'
 
   useEffect(() => {
     if (authToken) {
-      const namespace = localStorage.getItem('namespace') || 'managers'
-
       axios.get(`/${namespace}/avaliations.json`).then( ({ data }) => {
         setAvaliations(data.data);
       }).catch(defaultErrorHandler)
@@ -31,6 +30,12 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
     })
   }
 
+  const signOut = () => {
+    axios.delete(`/${namespace}/sign_out.json`).then( ({ data }) => {
+      localStorage.removeItem('authToken');
+    })
+  }
+
   const renderAvaliations = () => (
     avaliations.map(avaliation => (
       <div className="avaliation">
@@ -45,7 +50,7 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
   )
 
   if (!authToken) {
-    return <Redirect to="/managers/sign_in" />
+    return <Redirect to={`/${namespace}/sign_in`} />
   }
 
   if (redirectToShow) {
@@ -59,6 +64,7 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee 
   return (
     <div className="IndexContainer">
       <h2>{`Seja bem vindo ${email}`}</h2>
+      <button onClick={() => signOut() }>Sair</button>
       <h1>Avaliações</h1>
       <button onClick={() => setRedirectToNew(true)}>Criar empregado</button>
       {avaliations.length && (

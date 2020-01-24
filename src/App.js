@@ -29,13 +29,17 @@ function App() {
       <div className="main-content">
         <BrowserRouter>
           <Switch>
-            <Route path="/" exact>
-              <IndexContainer
-                authToken={authToken}
-                setCurrentEmployee={setCurrentEmployee}
-                currentEmployee={currentEmployee}
-              />
-            </Route>
+            <Route
+              path="/"
+              exact
+              render={(props) =>
+                <IndexContainer
+                  {...props}
+                  authToken={authToken}
+                  setCurrentEmployee={setCurrentEmployee}
+                  currentEmployee={currentEmployee}
+              />}
+            />
             <Route
               path="/managers/employees/new"
               exact
@@ -43,7 +47,7 @@ function App() {
                 <NewEmployee
                   {...props}
                   authToken={authToken}
-                />}
+              />}
             />
             <Route
               path="/managers/employees/:id"
