@@ -2,30 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+import EmployeeForm from '../../components/EmployeeForm';
+
 const EditEmployee = ({ authToken, match }) => {
   const [employee, setEmployee] = useState(undefined);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [redirectToShow, setRedirectToShow] = useState(false);
 
   useEffect(() => {
     if (authToken) {
       axios.get(`/managers/employees/${match.params.id}.json`).then( ({ data }) => {
         const employeeData = data.data;
-        setEmployee(employeeData)
-        setEmail(employeeData.attributes.email);
-        setName(employeeData.attributes.name);
+        setEmployee(employeeData);
       })
     }
   }, []);
 
-  const editEmployee = () => {
+  const editEmployee = (params) => {
     axios.put(`/managers/employees/${match.params.id}.json`, {
-      employee: {
-        name,
-        email,
-      }
+      employee: params,
     }).then( ({ data }) => {
-      setEmployee(data.data)
+      setEmployee(data.data);
+      setRedirectToShow(true);
     })
   }
 
@@ -33,16 +30,20 @@ const EditEmployee = ({ authToken, match }) => {
     return <Redirect to="/managers/sign_in" />
   }
 
+  // Loading
+  if (!employee) return null;
+
+  if (redirectToShow) {
+    return <Redirect to={`/managers/employees/${employee.id}`} />
+  }
+
   return (
     <div className="EditEmployee">
-      <h1>Edit do employee</h1>
-      {employee && (
-        <div className="employee-form">
-          <input type="text" value={name} onChange={e => setName(e.target.value)}/>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)}/>
-          <button onClick={editEmployee}>Editar</button>
-        </div>
-      )}
+      <EmployeeForm
+        action="edit"
+        employee={employee}
+        onSubmit={editEmployee}
+      />
     </div>
   )
 }

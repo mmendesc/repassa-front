@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import Avaliations from '../../components/Avaliations';
 
-axios.defaults.baseURL = 'http://localhost:3001/api/v1';
+import './style.scss';
 
 const ShowEmployee = ({ authToken, match }) => {
   const [employee, setEmployee] = useState(undefined);
@@ -57,16 +57,17 @@ const ShowEmployee = ({ authToken, match }) => {
 
   return (
     <div className="ShowEmployee">
-      <h1>Show do employee</h1>
+      <h1>Perfil do empregado</h1>
       {employee && (
         <React.Fragment>
           <div className="employee-info">
-            <h2>{`Nome: ${employee.attributes.name}`}</h2>
-            <h2>{`Email: ${employee.attributes.email}`}</h2>
+            <h4>{`Nome: ${employee.attributes.name}`}</h4>
+            <h4>{`Email: ${employee.attributes.email}`}</h4>
             <button onClick={newAvaliation}>Adicionar avaliação</button>
             <button onClick={editEmployee}>Editar</button>
             <button onClick={deleteEmployee}>Deletar</button>
           </div>
+          <h3>Avaliações:</h3>
           <Avaliations
             avaliations={avaliations}
             showActions

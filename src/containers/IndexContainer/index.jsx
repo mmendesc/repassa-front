@@ -36,13 +36,13 @@ const IndexContainer = ({ authToken }) => {
   const renderAvaliations = () => (
     avaliations.map(avaliation => (
       <div className="avaliation">
-        <h4>{`Empregado: ${avaliation.attributes.employee}`}</h4>
+        <h4>{`Empregado: ${avaliation.attributes.employee.data.attributes.name}`}</h4>
         <span>{`Nota: ${avaliation.attributes.grade}`}</span>
         <span>{`Comentário: ${avaliation.attributes.comment}`}</span>
-        <span>{`Avaliador por: ${avaliation.attributes.manager}`}</span>
+        <span>{`Avaliador por: ${avaliation.attributes.manager.data.attributes.name}`}</span>
         {namespace === 'managers' && (
           <div className="avaliation-actions">
-            <button onClick={() => showEmployee(avaliation.id)}>Ver empregado</button>
+            <button onClick={() => showEmployee(avaliation.attributes.employee.data.id)}>Ver empregado</button>
             <button onClick={() => deleteAvaliation(avaliation.id)}>Deletar avaliação</button>
           </div>
         )}
