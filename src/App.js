@@ -38,6 +38,7 @@ function App() {
                   authToken={authToken}
                   setCurrentEmployee={setCurrentEmployee}
                   currentEmployee={currentEmployee}
+                  setAuthToken={setAuthToken}
               />}
             />
             <Route
@@ -47,6 +48,7 @@ function App() {
                 <NewEmployee
                   {...props}
                   authToken={authToken}
+                  setAuthToken={setAuthToken}
               />}
             />
             <Route
@@ -56,6 +58,7 @@ function App() {
                 <ShowEmployee
                   {...props}
                   authToken={authToken}
+                  setAuthToken={setAuthToken}
                 />}
             />
             <Route
@@ -65,6 +68,7 @@ function App() {
                 <EditEmployee
                   {...props}
                   authToken={authToken}
+                  setAuthToken={setAuthToken}
                 />}
             />
             <Route
@@ -74,6 +78,7 @@ function App() {
                 <NewAvaliation
                   {...props}
                   authToken={authToken}
+                  setAuthToken={setAuthToken}
                 />}
             />
             <Route
@@ -90,6 +95,7 @@ function App() {
                 authToken={authToken}
                 setCurrentEmployee={setCurrentEmployee}
                 currentEmployee={currentEmployee}
+                setAuthToken={setAuthToken}
               />
             </Route>
           </Switch>
