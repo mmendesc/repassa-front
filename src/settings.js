@@ -7,7 +7,7 @@ axios.defaults.baseURL = 'http://localhost:3001/api/v1';
 
 export const defaultErrorHandler = (error) => {
   if (error.response.status === 401) {
-    toast('não autorizado')
+    toast.error('não autorizado')
     localStorage.removeItem('authToken')
     return <Redirect to="/" />;
   }

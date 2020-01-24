@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import { defaultErrorHandler } from '../../settings';
 
@@ -34,6 +35,7 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee,
     axios.delete(`/${namespace}/sign_out.json`).then( ({ data }) => {
       localStorage.removeItem('authToken');
       setAuthToken(undefined);
+      toast.success('Logout feito com sucesso')
     })
   }
 
