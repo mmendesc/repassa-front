@@ -19,13 +19,25 @@ toast.configure();
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
   const [currentEmployee, setCurrentEmployee] = useState(undefined);
+  const namespace = localStorage.getItem('namespace') || 'managers'
 
   if (authToken) {
     axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
   }
 
+  const signOut = () => {
+    axios.delete(`/${namespace}/sign_out.json`).then( ({ data }) => {
+      localStorage.removeItem('authToken');
+      setAuthToken(undefined);
+      toast.success('Logout feito com sucesso')
+    })
+  }
+
   return (
     <div className="App">
+      <div className="Sidebar">
+        <button onClick={() => signOut() }>Sair</button>
+      </div>
       <div className="main-content">
         <BrowserRouter>
           <Switch>

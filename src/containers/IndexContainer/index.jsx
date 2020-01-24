@@ -4,6 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { defaultErrorHandler } from '../../settings';
+import './style.scss';
 
 const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee, setAuthToken }) => {
   const [avaliations, setAvaliations] = useState([]);
@@ -31,26 +32,18 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee,
     })
   }
 
-  const signOut = () => {
-    axios.delete(`/${namespace}/sign_out.json`).then( ({ data }) => {
-      localStorage.removeItem('authToken');
-      setAuthToken(undefined);
-      toast.success('Logout feito com sucesso')
-    })
-  }
-
   const renderAvaliations = () => (
     avaliations.map(avaliation => (
       <div className="avaliation">
-        <h2>{`Empregado: ${avaliation.attributes.employee}`}</h2>
-        <h2>{`Nota: ${avaliation.attributes.grade}`}</h2>
-        <h2>{`Comentário: ${avaliation.attributes.comment}`}</h2>
-        <h2>{`Avaliador por: ${avaliation.attributes.manager}`}</h2>
+        <h4>{`Empregado: ${avaliation.attributes.employee}`}</h4>
+        <span>{`Nota: ${avaliation.attributes.grade}`}</span>
+        <span>{`Comentário: ${avaliation.attributes.comment}`}</span>
+        <span>{`Avaliador por: ${avaliation.attributes.manager}`}</span>
         {namespace === 'managers' && (
-          <React.Fragment>
+          <div className="avaliation-actions">
             <button onClick={() => showEmployee(avaliation.id)}>Ver empregado</button>
             <button onClick={() => deleteAvaliation(avaliation.id)}>Deletar avaliação</button>
-          </React.Fragment>
+          </div>
         )}
       </div>
     ))
@@ -70,15 +63,16 @@ const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee,
 
   return (
     <div className="IndexContainer">
-      <h2>{`Seja bem vindo ${email}`}</h2>
-      <button onClick={() => signOut() }>Sair</button>
+
       <h1>Avaliações</h1>
       {namespace === 'managers' && (
         <button onClick={() => setRedirectToNew(true)}>Criar empregado</button>
       )}
 
       {avaliations.length && (
-        renderAvaliations()
+        <div className="avaliations">
+          {renderAvaliations()}
+        </div>
       )}
     </div>
   )

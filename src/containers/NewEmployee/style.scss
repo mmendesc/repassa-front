@@ -1,0 +1,22 @@
+.NewEmployee {
+  width: 100%;
+
+  .employee-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .input-group {
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      margin-bottom: 16px;
+
+      input {
+        width: 100%;
+        margin-top: 8px;
+      }
+    }
+  }
+}

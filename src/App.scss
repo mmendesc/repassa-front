@@ -1,8 +1,16 @@
 .App {
+  display: flex;
+
+  .Sidebar {
+    background-color: #0776A1;
+  }
+
   .main-content {
     display: flex;
     min-height: 100vh;
     font-size: 1.4rem;
+    background-color: #f4f6f8;
+    width: 100%;
   }
 }
 
