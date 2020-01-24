@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 
 import { defaultErrorHandler } from '../../settings';
 
+import './style.scss';
+
 const SessionContainer = ({ setAuthToken, authToken, match }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,8 +37,16 @@ const SessionContainer = ({ setAuthToken, authToken, match }) => {
 
   return (
     <div className="SessionContainer">
-      <input type="text" onChange={e => setEmail(e.target.value)}/>
-      <input type="password" onChange={e => setPassword(e.target.value)}/>
+      <div className="session-form">
+        <div className="input-group">
+          <label>Email</label>
+          <input type="email" onChange={e => setEmail(e.target.value)}/>
+        </div>
+        <div className="input-group">
+          <label>Senha</label>
+          <input type="password" onChange={e => setPassword(e.target.value)}/>
+        </div>
+      </div>
       <button onClick={signIn}>Entrar</button>
     </div>
   )

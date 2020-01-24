@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 import { defaultErrorHandler } from '../../settings';
 import './style.scss';

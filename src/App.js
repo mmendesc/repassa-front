@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+import MainLayout from './components/MainLayout';
 import SessionContainer from './containers/SessionContainer';
 import IndexContainer from './containers/IndexContainer';
 import EmployeeIndex from './containers/EmployeeIndex';
@@ -19,106 +20,109 @@ toast.configure();
 
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
-  const namespace = localStorage.getItem('namespace') || 'managers'
 
   if (authToken) {
     axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
   }
 
-  const signOut = () => {
-    axios.delete(`/${namespace}/sign_out.json`).then( ({ data }) => {
-      localStorage.removeItem('authToken');
-      setAuthToken(undefined);
-      toast.success('Logout feito com sucesso')
-    })
-  }
-
   return (
     <div className="App">
-      <div className="Sidebar">
-        <button onClick={() => signOut() }>Sair</button>
-        <button onClick={() => signOut() }>Empregados</button>
-      </div>
-      <div className="main-content">
-        <BrowserRouter>
-          <Switch>
-            <Route
-              path="/"
-              exact
-              render={(props) =>
-                <IndexContainer
-                  {...props}
-                  authToken={authToken}
-                  setAuthToken={setAuthToken}
-              />}
-            />
-            <Route
-              path="/managers/employees"
-              exact
-              render={(props) =>
-                <EmployeeIndex
-                  {...props}
-                  authToken={authToken}
-              />}
-            />
-            <Route
-              path="/managers/employees/new"
-              exact
-              render={(props) =>
-                <NewEmployee
-                  {...props}
-                  authToken={authToken}
-                  setAuthToken={setAuthToken}
-              />}
-            />
-            <Route
-              path="/managers/employees/:id"
-              exact
-              render={(props) =>
-                <ShowEmployee
-                  {...props}
-                  authToken={authToken}
-                  setAuthToken={setAuthToken}
-                />}
-            />
-            <Route
-              path="/managers/employees/:id/edit"
-              exact
-              render={(props) =>
-                <EditEmployee
-                  {...props}
-                  authToken={authToken}
-                  setAuthToken={setAuthToken}
-                />}
-            />
-            <Route
-              path="/managers/employees/:id/avaliations/new"
-              exact
-              render={(props) =>
-                <NewAvaliation
-                  {...props}
-                  authToken={authToken}
-                  setAuthToken={setAuthToken}
-                />}
-            />
-            <Route
-              path="/:namespace/sign_in"
-              render={(props) =>
-                <SessionContainer
-                  {...props}
-                  setAuthToken={setAuthToken}
-                  authToken={authToken}
-                />}
-            />
-            <Route>
-              <IndexContainer
-                authToken={authToken}
-                setAuthToken={setAuthToken}
+      <BrowserRouter>
+        <div className="main-content">
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={(props) =>
+                  <MainLayout
+                    setAuthToken={setAuthToken}
+                  >
+                    <IndexContainer
+                      {...props}
+                      authToken={authToken}
+                      setAuthToken={setAuthToken}
+                    />
+                  </MainLayout>}
               />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </div>
+              <Route
+                path="/managers/employees"
+                exact
+                render={(props) =>
+                  <MainLayout setAuthToken={setAuthToken}>
+                    <EmployeeIndex
+                      {...props}
+                      authToken={authToken}
+                    />
+                  </MainLayout>}
+              />
+              <Route
+                path="/managers/employees/new"
+                exact
+                render={(props) =>
+                  <MainLayout setAuthToken={setAuthToken}>
+                    <NewEmployee
+                    {...props}
+                      authToken={authToken}
+                      setAuthToken={setAuthToken}
+                    />
+                  </MainLayout>}
+              />
+              <Route
+                path="/managers/employees/:id"
+                exact
+                render={(props) =>
+                  <MainLayout setAuthToken={setAuthToken}>
+                    <ShowEmployee
+                      {...props}
+                      authToken={authToken}
+                      setAuthToken={setAuthToken}
+                    />
+                  </MainLayout>}
+              />
+              <Route
+                path="/managers/employees/:id/edit"
+                exact
+                render={(props) =>
+                  <MainLayout setAuthToken={setAuthToken}>
+                    <EditEmployee
+                      {...props}
+                      authToken={authToken}
+                      setAuthToken={setAuthToken}
+                    />
+                  </MainLayout>}
+              />
+              <Route
+                path="/managers/employees/:id/avaliations/new"
+                exact
+                render={(props) =>
+                  <MainLayout setAuthToken={setAuthToken}>
+                    <NewAvaliation
+                      {...props}
+                      authToken={authToken}
+                      setAuthToken={setAuthToken}
+                    />
+                  </MainLayout>}
+              />
+              <Route
+                path="/:namespace/sign_in"
+                render={(props) =>
+                  <SessionContainer
+                    {...props}
+                    setAuthToken={setAuthToken}
+                    authToken={authToken}
+                  />}
+              />
+              <Route>
+                <MainLayout setAuthToken={setAuthToken}>
+                  <IndexContainer
+                    authToken={authToken}
+                    setAuthToken={setAuthToken}
+                  />
+                </MainLayout>
+              </Route>
+            </Switch>
+          </div>
+      </BrowserRouter>
     </div>
   );
 }
