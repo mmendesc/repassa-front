@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+import { defaultErrorHandler } from '../../settings';
+
 const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee }) => {
   const [avaliations, setAvaliations] = useState([]);
   const [redirectToShow, setRedirectToShow] = useState(false);
   const [redirectToNew, setRedirectToNew] = useState(false);
 
-  axios.defaults.headers.common.Authorization = `Bearer ${authToken}`;
-
   useEffect(() => {
     if (authToken) {
-      const userData = JSON.parse(localStorage.getItem('userData'))
+      const namespace = localStorage.getItem('namespace') || 'managers'
 
-      axios.get(`/${userData.namespace}/avaliations.json`).then( ({ data }) => {
+      axios.get(`/${namespace}/avaliations.json`).then( ({ data }) => {
         setAvaliations(data.data);
-      })
+      }).catch(defaultErrorHandler)
     }
   }, []);
 

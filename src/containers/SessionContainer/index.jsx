@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
-const SessionContainer = ({ setAuthToken, authToken, namespace }) => {
+import { defaultErrorHandler } from '../../settings';
+
+const SessionContainer = ({ setAuthToken, authToken, match }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const signIn = () => {
-    axios.post(`/${namespace}/sign_in`, {
+    axios.post(`/${match.params.namespace}/sign_in`, {
       login: {
         email,
         password,
       }
     }).then( ({ data }) => {
       localStorage.setItem('authToken', data.auth_token);
+      localStorage.setItem('namespace', data.namespace);
 
       const userData = {
         namespace: data.namespace,
@@ -23,9 +26,7 @@ const SessionContainer = ({ setAuthToken, authToken, namespace }) => {
       localStorage.setItem('userData', JSON.stringify(userData))
       setAuthToken(data.auth_token)
       setEmail(data.email)
-    }).catch( (response) => {
-      // tratar o erro
-    })
+    }).catch(defaultErrorHandler)
   }
 
   if (authToken) {

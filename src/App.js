@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import SessionContainer from './containers/SessionContainer';
 import IndexContainer from './containers/IndexContainer';
@@ -11,6 +12,9 @@ import NewAvaliation from './containers/NewAvaliation';
 
 import './App.scss';
 import './settings.js'
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure();
 
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
@@ -68,20 +72,15 @@ function App() {
                   authToken={authToken}
                 />}
             />
-            <Route path="/employees/sign_in">
-              <SessionContainer
-                setAuthToken={setAuthToken}
-                authToken={authToken}
-                namespace="employees"
-              />
-            </Route>
-            <Route path="/managers/sign_in">
-              <SessionContainer
-                setAuthToken={setAuthToken}
-                authToken={authToken}
-                namespace="managers"
-              />
-            </Route>
+            <Route
+              path="/:namespace/sign_in"
+              render={(props) =>
+                <SessionContainer
+                  {...props}
+                  setAuthToken={setAuthToken}
+                  authToken={authToken}
+                />}
+            />
             <Route>
               <IndexContainer
                 authToken={authToken}
