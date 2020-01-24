@@ -6,8 +6,9 @@ import { toast } from 'react-toastify';
 import { defaultErrorHandler } from '../../settings';
 import './style.scss';
 
-const IndexContainer = ({ email, authToken, setCurrentEmployee, currentEmployee, setAuthToken }) => {
+const IndexContainer = ({ authToken }) => {
   const [avaliations, setAvaliations] = useState([]);
+  const [currentEmployee, setCurrentEmployee] = useState(undefined);
   const [redirectToShow, setRedirectToShow] = useState(false);
   const [redirectToNew, setRedirectToNew] = useState(false);
   const namespace = localStorage.getItem('namespace') || 'managers'

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 import SessionContainer from './containers/SessionContainer';
 import IndexContainer from './containers/IndexContainer';
+import EmployeeIndex from './containers/EmployeeIndex';
 import ShowEmployee from './containers/ShowEmployee';
 import EditEmployee from './containers/EditEmployee';
 import NewEmployee from './containers/NewEmployee';
@@ -18,7 +19,6 @@ toast.configure();
 
 function App() {
   const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
-  const [currentEmployee, setCurrentEmployee] = useState(undefined);
   const namespace = localStorage.getItem('namespace') || 'managers'
 
   if (authToken) {
@@ -37,6 +37,7 @@ function App() {
     <div className="App">
       <div className="Sidebar">
         <button onClick={() => signOut() }>Sair</button>
+        <button onClick={() => signOut() }>Empregados</button>
       </div>
       <div className="main-content">
         <BrowserRouter>
@@ -48,9 +49,16 @@ function App() {
                 <IndexContainer
                   {...props}
                   authToken={authToken}
-                  setCurrentEmployee={setCurrentEmployee}
-                  currentEmployee={currentEmployee}
                   setAuthToken={setAuthToken}
+              />}
+            />
+            <Route
+              path="/managers/employees"
+              exact
+              render={(props) =>
+                <EmployeeIndex
+                  {...props}
+                  authToken={authToken}
               />}
             />
             <Route
@@ -105,8 +113,6 @@ function App() {
             <Route>
               <IndexContainer
                 authToken={authToken}
-                setCurrentEmployee={setCurrentEmployee}
-                currentEmployee={currentEmployee}
                 setAuthToken={setAuthToken}
               />
             </Route>
